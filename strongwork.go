@@ -85,6 +85,11 @@ func (sw StrongWork) ContentBytes() []byte {
 	return buf.Bytes()
 }
 
+func (sw StrongWork) ContentHash() []byte {
+	result := sha256.Sum256(sw.ContentBytes())
+	return result[:]
+}
+
 func (sw StrongWork) CounterBytes() []byte {
 	var buf bytes.Buffer
 	binary.Write(&buf, binary.BigEndian, sw.Counter)

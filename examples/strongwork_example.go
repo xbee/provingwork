@@ -1,7 +1,6 @@
 package main
 
 import (
-	"crypto/sha256"
 	"encoding/json"
 	"fmt"
 
@@ -18,5 +17,5 @@ func main() {
 
 	json, _ := json.Marshal(sw)
 	fmt.Println(string(json))
-	fmt.Printf("%x\n", sha256.Sum256(sw.ContentBytes()))
+	fmt.Printf("%x\n", sw.ContentHash())
 }

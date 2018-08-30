@@ -57,7 +57,7 @@ func (wo HashCash) UnmarshalJSON(data []byte) error {
 }
 
 func NewHashCash(resource []byte, opts ...*WorkOptions) *HashCash {
-	hc := HashCash{ Resource: resource }
+	hc := HashCash{Resource: resource}
 
 	if len(opts) != 0 {
 		hc.WorkOptions = opts[0]
@@ -102,6 +102,11 @@ func (hc HashCash) String() string {
 		base64.StdEncoding.EncodeToString(hc.Salt),
 		base64.StdEncoding.EncodeToString(hc.CounterBytes()),
 	)
+}
+
+func (hc HashCash) ContentHash() []byte {
+	result := sha1.Sum([]byte(hc.String()))
+	return result[:]
 }
 
 func (hc HashCash) ZeroCount() int {
