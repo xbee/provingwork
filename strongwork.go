@@ -72,7 +72,7 @@ func (sw StrongWork) Check() bool {
 	return false
 }
 
-func (sw StrongWork) ContentHash() []byte {
+func (sw StrongWork) ContentBytes() []byte {
 	var buf bytes.Buffer
 
 	buf.Write(sw.Resource)
@@ -113,7 +113,7 @@ func (sw *StrongWork) FindProof() {
 }
 
 func (sw StrongWork) ZeroCount() int {
-	digest := sha256.Sum256(sw.ContentHash())
+	digest := sha256.Sum256(sw.ContentBytes())
 	digestHex := new(big.Int).SetBytes(digest[:])
 	return ((sha256.Size * 8) - digestHex.BitLen())
 }

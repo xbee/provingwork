@@ -5,18 +5,18 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/sstelfox/provingwork"
+	"github.com/xbee/provingwork"
 )
 
 func main() {
 	sw := provingwork.NewStrongWork(
 		[]byte("Just some test data in the string"),
-		&provingwork.WorkOptions{BitStrength: 20},
+		&provingwork.WorkOptions{BitStrength: 22},
 	)
 	sw.FindProof()
 	fmt.Printf("%v\n", sw.String())
 
 	json, _ := json.Marshal(sw)
 	fmt.Println(string(json))
-	fmt.Printf("%x\n", sha256.Sum256(sw.ContentHash()))
+	fmt.Printf("%x\n", sha256.Sum256(sw.ContentBytes()))
 }
