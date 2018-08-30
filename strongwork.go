@@ -2,10 +2,12 @@ package provingwork
 
 import (
 	"bytes"
+	"fmt"
 
 	"crypto/sha256"
 	"math/big"
 
+	"encoding/base64"
 	"encoding/binary"
 	"encoding/json"
 )
@@ -50,7 +52,7 @@ func (wo StrongWork) UnmarshalJSON(data []byte) error {
 }
 
 func NewStrongWork(resource []byte, opts ...*WorkOptions) *StrongWork {
-	sw := StrongWork{ Resource: resource }
+	sw := StrongWork{Resource: resource}
 
 	if len(opts) != 0 {
 		sw.WorkOptions = opts[0]
@@ -81,6 +83,24 @@ func (sw StrongWork) ContentHash() []byte {
 	binary.Write(&buf, binary.BigEndian, sw.Counter)
 
 	return buf.Bytes()
+}
+
+func (sw StrongWork) CounterBytes() []byte {
+	var buf bytes.Buffer
+	binary.Write(&buf, binary.BigEndian, sw.Counter)
+	return buf.Bytes()
+}
+
+func (sw StrongWork) String() string {
+	return fmt.Sprintf(
+		"1:%v:%v:%v:%v:%v:%v",
+		sw.BitStrength,
+		sw.Timestamp.Format("20060102150405"),
+		string(sw.Resource),
+		string(sw.Extension),
+		base64.StdEncoding.EncodeToString(sw.Salt),
+		base64.StdEncoding.EncodeToString(sw.CounterBytes()),
+	)
 }
 
 func (sw *StrongWork) FindProof() {

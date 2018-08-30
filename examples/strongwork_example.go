@@ -11,9 +11,10 @@ import (
 func main() {
 	sw := provingwork.NewStrongWork(
 		[]byte("Just some test data in the string"),
-		&provingwork.WorkOptions{ BitStrength: 20 },
+		&provingwork.WorkOptions{BitStrength: 20},
 	)
 	sw.FindProof()
+	fmt.Printf("%v\n", sw.String())
 
 	json, _ := json.Marshal(sw)
 	fmt.Println(string(json))
